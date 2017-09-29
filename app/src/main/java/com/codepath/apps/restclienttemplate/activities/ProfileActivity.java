@@ -75,10 +75,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
 
-           /* UserFragment userFragment = UserFragment.newInstance(user);
+            UserFragment userFragment = UserFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.profileFragment, userFragment);
-            transaction.commit();*/
+            transaction.commit();
         }
 
         setSupportActionBar(toolbar);
