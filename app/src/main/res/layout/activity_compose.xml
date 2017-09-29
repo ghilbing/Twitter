@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="5dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/BlueBackground">
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView" />
+
+        <Button
+            android:id="@+id/btnNewTweet"
+            android:layout_alignParentRight="true"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            style="@style/BlueBackground"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textColor="#ffffff"
+            android:text="Tweet" />
+
+        <TextView
+            android:id="@+id/tvCharCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="84dp"
+            android:textColor="#000000"
+            android:layout_toEndOf="@+id/imageView"
+            android:text="" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/etNewTweet"
+        android:hint="What's happening?"
+        android:gravity="top"
+        android:padding="10dp"
+        android:textColorHint="#666666"
+        android:textColor="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

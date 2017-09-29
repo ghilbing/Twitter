@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.codepath.apps.restclienttemplate.fragments.TweetsFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:id="@+id/swipeContainer">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvTweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <!--<ListView
+            android:id="@+id/lvTimeline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Base.ThemeOverlay.AppCompat.Light">
+        </ListView>
+-->
+    </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

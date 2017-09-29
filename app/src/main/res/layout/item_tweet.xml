@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:padding="7dp">
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_launcher" />
+
+            <RelativeLayout
+                android:id="@+id/rlTweetContent"
+                android:layout_toRightOf="@id/ivProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTweetFullName"
+                    android:text="Gretel Hilbing"
+                    style="@style/BoldText"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_toRightOf="@id/tvTweetFullName"
+                    style="@style/SmallLightText"
+                    android:text="\@gretelhilbing"
+                    android:gravity="center_vertical"
+                    android:layout_alignBottom="@id/tvTweetFullName"
+                    android:layout_alignTop="@id/tvTweetFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvTweetAge"
+                    android:layout_toRightOf="@id/tvUserName"
+                    style="@style/SmallLightText"
+                    android:text="15m"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.codepath.apps.restclienttemplate.utils.LinkifieldTextView
+                    android:id="@+id/tvBody"
+                    style="@style/RegularText"
+                    android:layout_below="@id/tvTweetFullName"
+                    android:linksClickable="true"
+                    android:autoLink="all"
+                    android:text="Tweet tweet tweet! Tweet tweet tweet! Tweet tweet tweet! This is 140 characters of sample text. This is 140 characters of sample text. Meow."
+                    android:layout_width="wrap_content"
+                    android:textColorLink="@color/TwitterBlue"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/ivMedia"
+                    android:gravity="center"
+                    android:layout_below="@id/tvBody"
+                    android:layout_alignTop="@id/buttonPanel"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="8dp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/buttonPanel"
+                    android:gravity="center"
+                    android:layout_below="@+id/rlTweetContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <Button
+                    android:id="@+id/btnReply"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/tvBody"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/ic_reply"/>
+                <Button
+                    android:id="@+id/btnRetweet"
+                    android:layout_height="20dp"
+                    android:layout_width="20dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_toRightOf="@id/btnReply"
+                    android:layout_below="@id/tvBody"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/ic_retweet"/>
+                <TextView
+                    android:id="@+id/tvRetweetCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    style="@style/SmallLightText"
+                    android:text="55"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignBottom="@id/btnRetweet"
+                    android:layout_toEndOf="@id/btnRetweet"
+                    android:layout_toRightOf="@+id/btnRetweet"/>
+                <Button
+                    android:id="@+id/btnFavorite"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_toRightOf="@id/tvRetweetCount"
+                    android:layout_below="@id/tvBody"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginLeft="80dp"
+                    android:background="@drawable/ic_favorite"/>
+                <TextView
+                    android:id="@+id/tvFavoriteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    style="@style/SmallLightText"
+                    android:text="55"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignBottom="@id/btnRetweet"
+                    android:layout_toEndOf="@id/btnRetweet"
+                    android:layout_toRightOf="@+id/btnFavorite"/>
+
+                    </RelativeLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
