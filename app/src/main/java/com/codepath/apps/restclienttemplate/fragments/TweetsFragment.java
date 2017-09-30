@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.apps.restclienttemplate.R.id.fabCompose;
+import static com.codepath.apps.restclienttemplate.R.id.toolbar;
 
 /**
  * Created by gretel on 9/25/17.
@@ -52,9 +55,14 @@ public abstract class TweetsFragment extends Fragment {
     @Bind(R.id.rvTweet)
     RecyclerView mRecycler;
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     TweetAdapter mAdapter;
     TwitterClient client;
     private ArrayList<Tweet> tweetList;
+
+
 
 
 
@@ -88,6 +96,8 @@ public abstract class TweetsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tweets, container, false);
 
         ButterKnife.bind(this, view);
+
+
 
         mAdapter = new TweetAdapter(getActivity(), new ArrayList<Tweet>());
         mRecycler.setAdapter(mAdapter);
@@ -166,6 +176,19 @@ public abstract class TweetsFragment extends Fragment {
     public void addAll(ArrayList<Tweet> tweets){
         mAdapter.addAll(tweets);
         mAdapter.notifyDataSetChanged();
+        swipeContainer.setRefreshing(false);
+    }
+
+    public void addAll(ArrayList<Tweet> tweets, Boolean clearTweetListBeforeAdd){
+        if(clearTweetListBeforeAdd){
+            tweetList.clear();
+        }
+        tweetList.addAll(tweets);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    protected void onFinishLoadMore(){
+        mRecycler.setVisibility(View.VISIBLE);
         swipeContainer.setRefreshing(false);
     }
 

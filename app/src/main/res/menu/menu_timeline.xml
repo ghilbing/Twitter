@@ -2,17 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_compose"
+   <!-- <item android:id="@+id/action_compose"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_compose_tweet"
         android:title="@string/action_compose"/>
+-->
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_search"
+        android:title="Search..."
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 
-    <item android:id="@+id/action_profile"
+    <!--<item android:id="@+id/action_profile"
         android:orderInCategory="200"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_view_profile"
-        android:title="Profile" />
+        android:title="Profile" />-->
 
     <item android:id="@+id/logout"
         android:orderInCategory="300"

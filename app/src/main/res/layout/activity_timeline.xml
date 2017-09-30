@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout android:id="@+id/activity_timeline"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/activity_timeline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.restclienttemplate.activities.TimelineActivity"
@@ -43,7 +44,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="@android:color/white" />
 
     <android.support.design.widget.FloatingActionButton

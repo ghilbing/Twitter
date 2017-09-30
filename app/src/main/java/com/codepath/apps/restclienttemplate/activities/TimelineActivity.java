@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.fragments.ComposeFragment;
 import com.codepath.apps.restclienttemplate.fragments.MentionsFragment;
 import com.codepath.apps.restclienttemplate.fragments.TimelineFragment;
+import com.codepath.apps.restclienttemplate.interfaces.IDataCallback;
+import com.codepath.apps.restclienttemplate.interfaces.ISearch;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.apps.restclienttemplate.utils.SmartFragmentStatePagerAdapter;
@@ -39,6 +42,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -46,6 +50,7 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 import static android.R.attr.data;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.codepath.apps.restclienttemplate.R.id.fabCompose;
 import static com.codepath.apps.restclienttemplate.R.id.ivProfileImage;
 import static com.codepath.apps.restclienttemplate.R.id.ivProfilePhoto;
@@ -68,8 +73,6 @@ public class TimelineActivity extends AppCompatActivity {
     FloatingActionButton fabCompose;
   /*  @Bind(R.id.ivAirplaneMode)
     ImageView ivAirplaneMode;*/
-
-
 
     private TwitterClient client;
     /*TweetAdapter mTweetAdapter;
@@ -119,23 +122,59 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       getMenuInflater().inflate(R.menu.menu_timeline, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
+        // Customize searchview text and hint colors
+        int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
+        EditText et = (EditText) searchView.findViewById(searchEditId);
+        et.setTextColor(Color.BLACK);
+        et.setHintTextColor(Color.GRAY);
+        et.setHint("Search tweets");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                searchView.clearFocus();
+                Log.i("query", query);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("q", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
+
+       // return true;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         switch (id){
-            case R.id.action_compose:
+            /*case R.id.action_compose:
                 Intent intent = new Intent(this, ComposeActivity.class);
                 startActivityForResult(intent, ComposeActivity.REQUEST_CODE);
                 break;
             case R.id.action_profile:
                 Intent intent1 = new Intent(this, ProfileActivity.class);
                 startActivity(intent1);
-                break;
+                break;*/
             case R.id.logout:
                 TwitterApp.getRestClient().clearAccessToken();
                 Intent i = new Intent(this, LoginActivity.class);
@@ -165,6 +204,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         public TweetPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
+
         }
 
         @Override
@@ -175,6 +215,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             switch (position){
                 case 0:
+
                     return new TimelineFragment();
                 case 1:
                     return new MentionsFragment();
