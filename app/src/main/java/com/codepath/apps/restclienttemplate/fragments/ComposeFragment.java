@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static android.R.attr.editable;
 import static com.codepath.apps.restclienttemplate.R.id.tvCharCount;
+import static com.raizlabs.android.dbflow.config.FlowLog.Level.I;
 
 /**
  * Created by gretel on 9/28/17.
@@ -82,9 +85,12 @@ public class ComposeFragment extends BottomSheetDialogFragment {
         ButterKnife.bind(this, view);
 
         getDialog().setTitle("Hello!");
-        // Show soft keyboard automatically and request focus to field
+        // Hide soft keyboard automatically and request focus to field
         etTweet.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        if(view != null){
+            InputMethodManager imm = (InputMethodManager) getContext().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
 
         etTweet.addTextChangedListener(new TextWatcher() {
             @Override

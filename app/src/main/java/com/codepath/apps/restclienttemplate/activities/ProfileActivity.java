@@ -57,6 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.tvTagline)
     TextView tagline;
 
+    public enum Follow {
+        Following, Follower;
+    }
+
 
     TwitterClient client = TwitterApp.getRestClient();
 
