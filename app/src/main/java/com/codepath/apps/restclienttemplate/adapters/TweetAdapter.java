@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.activities.DetailActivity;
 import com.codepath.apps.restclienttemplate.activities.ProfileActivity;
 import com.codepath.apps.restclienttemplate.models.Entity;
 import com.codepath.apps.restclienttemplate.models.Media;
@@ -201,8 +202,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-        }
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getLayoutPosition();
+
+                    Tweet tweet = mTweets.get(position);
+                    Intent intent = new Intent(mContext, DetailActivity.class);
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+                    intent.putExtra("user", Parcels.wrap(tweet.getUser()));
+                    intent.putExtra("entity", Parcels.wrap(tweet.getEntity()));
+                    mContext.startActivity(intent);
+                }
+            });
+
+        }
 
 
     }

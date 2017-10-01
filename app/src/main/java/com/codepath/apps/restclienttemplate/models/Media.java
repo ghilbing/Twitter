@@ -1,5 +1,8 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,11 +14,33 @@ import java.util.List;
  * Created by gretel on 9/28/17.
  */
 
-public class Media {
+public class Media implements Parcelable {
 
     private long id;
     private String mediaUrl;
     private String url;
+
+    protected Media(Parcel in) {
+        id = in.readLong();
+        mediaUrl = in.readString();
+        url = in.readString();
+    }
+
+    public static final Creator<Media> CREATOR = new Creator<Media>() {
+        @Override
+        public Media createFromParcel(Parcel in) {
+            return new Media(in);
+        }
+
+        @Override
+        public Media[] newArray(int size) {
+            return new Media[size];
+        }
+    };
+
+    public Media() {
+
+    }
 
     public long getId() {
         return id;
@@ -30,7 +55,7 @@ public class Media {
     }
 
     public static Media fromJSON(JSONObject object) {
-        Media media = null;
+        Media media = new Media();
         try {
             media = new Media();
             media.id = object.getLong("id");
@@ -42,6 +67,7 @@ public class Media {
 
         return media;
     }
+
 
     public static List<Media> fromJSONArray(JSONArray array) {
         List<Media> medias = new ArrayList<>();
@@ -56,5 +82,20 @@ public class Media {
             }
         }
         return medias;
+    }
+
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(mediaUrl);
+        parcel.writeString(url);
     }
 }

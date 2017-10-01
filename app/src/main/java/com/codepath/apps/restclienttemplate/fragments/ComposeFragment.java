@@ -49,7 +49,7 @@ public class ComposeFragment extends BottomSheetDialogFragment {
 
     private TwitterClient client;
 
-    @Bind(R.id.etTweet)
+    @Bind(R.id.etNewTweet)
     EditText etTweet;
     @Bind(R.id.btnCancel)
     Button btnCancel;

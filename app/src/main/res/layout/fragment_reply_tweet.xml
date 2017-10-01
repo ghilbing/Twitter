@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvReplyTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="replyTo"
+        android:layout_marginStart="27dp"
+        android:layout_alignBaseline="@+id/tvCharactersRemaining"
+        android:layout_alignBottom="@+id/tvCharactersRemaining"
+        android:layout_toEndOf="@+id/tvCharactersRemaining" />
 
     <EditText
         android:layout_width="match_parent"
@@ -33,12 +44,13 @@
         android:layout_toLeftOf="@id/btnTweet"
         android:layout_toStartOf="@+id/btnTweet"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
     <TextView
+        android:id="@+id/tvCharactersRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvCharactersRemaining"
         android:layout_alignBaseline="@id/btnTweet"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
+        android:layout_alignParentStart="true"
+        android:text="140" />
 </RelativeLayout>

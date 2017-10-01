@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -21,17 +22,21 @@ import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TwitterClient;
+import com.codepath.apps.restclienttemplate.activities.DetailActivity;
 import com.codepath.apps.restclienttemplate.adapters.TweetAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.apps.restclienttemplate.utils.EndlessRecyclerViewScrollListener;
+import com.codepath.apps.restclienttemplate.utils.ItemClickSupport;
 import com.codepath.apps.restclienttemplate.utils.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Operator;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +96,7 @@ public abstract class TweetsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View view = inflater.inflate(R.layout.fragment_tweets, container, false);
 
@@ -101,15 +106,15 @@ public abstract class TweetsFragment extends Fragment {
 
         mAdapter = new TweetAdapter(getActivity(), new ArrayList<Tweet>());
         mRecycler.setAdapter(mAdapter);
-     /*   mRecycler.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
-        mRecycler.addItemDecoration(itemDecoration);*/
         LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());
 
         mRecycler.setLayoutManager(layoutManager);
-       /*mRecycler.addOnScrollListener(new EndlessRecyclerViewScrollListener() {
+
+
+        mRecycler.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int page, int totalItemsCount) {
                // Log.i( + (mAdapter.getItemCount()));
                 if(mAdapter.getItemCount() == 0){
                     populateTimeline(null);
@@ -118,7 +123,7 @@ public abstract class TweetsFragment extends Fragment {
                     populateTimeline(oldest.getId().toString());
                 }
             }
-        });*/
+        });
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
