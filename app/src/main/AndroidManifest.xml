@@ -32,7 +32,12 @@
                     android:scheme="@string/intent_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TimelineActivity" />
+        <activity
+            android:name=".activities.TimelineActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codepath.apps.restclienttemplate.activities.TimelineActivity" />
+        </activity>
         <activity
             android:name=".activities.ComposeActivity"
             android:excludeFromRecents="true"

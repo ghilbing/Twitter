@@ -18,6 +18,7 @@ public class Entity implements Parcelable {
 
     public List<Media> media = new ArrayList<>();
 
+
     protected Entity(Parcel in) {
     }
 
