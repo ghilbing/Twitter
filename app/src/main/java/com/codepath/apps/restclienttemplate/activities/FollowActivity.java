@@ -38,10 +38,10 @@ public class FollowActivity extends AppCompatActivity {
     @Nullable
     @Bind(R.id.rvFollows)
     RecyclerView rvFollows;
-    private FollowAdapter followAdapter;
-    private ArrayList<User> followList;
-    private User user;
-    private TwitterClient client;
+    FollowAdapter followAdapter;
+    ArrayList<User> followList;
+    User user;
+    TwitterClient client;
     @Bind(R.id.toolbarTitle)
     TextView toolbarTitle;
 

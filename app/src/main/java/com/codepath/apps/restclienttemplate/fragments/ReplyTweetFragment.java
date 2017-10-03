@@ -143,8 +143,9 @@ public class ReplyTweetFragment extends BottomSheetDialogFragment {
 
         if(isReply){
             tvReplyTo.setVisibility(View.VISIBLE);
-            tvReplyTo.setText("In reply to " + user.getName());
-            etNewTweet.setText(user.getScreenName() + " ");
+            tvReplyTo.setText("In reply to " + user.getScreenName());
+            etNewTweet.setText("@" + user.getScreenName() + " ");
+            Log.i("REPLY", etNewTweet.toString());
             etNewTweet.requestFocus();
         }
 

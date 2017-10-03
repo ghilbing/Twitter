@@ -1,14 +1,24 @@
 package com.codepath.apps.restclienttemplate.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.test.suitebuilder.TestMethod;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +33,7 @@ import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.fragments.UserFragment;
 import com.codepath.apps.restclienttemplate.models.User;
+import com.codepath.apps.restclienttemplate.utils.Utils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
@@ -33,7 +44,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
+import static com.codepath.apps.restclienttemplate.R.id.tvDescription;
 import static com.codepath.apps.restclienttemplate.R.id.tvRetweetCount;
+import static com.codepath.apps.restclienttemplate.R.id.tvScreenName;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -64,6 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     TwitterClient client = TwitterApp.getRestClient();
 
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +90,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         String username = user.getName();
 
-        Log.i("USER RECEIVED", user.toString());
+        Log.i("USER RECEIVED", user.getName().toString());
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
 
             UserFragment userFragment = UserFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -120,20 +135,21 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void populateUser(String userName) {
 
-        if(userName != null){
+        if (userName != null) {
+            Log.i("UserName", userName.toString());
             client.getUser(userName, handler);
-        }else {
+        } else {
             client.getCredentials(handler);
         }
 
     }
 
 
-    private JsonHttpResponseHandler handler = new JsonHttpResponseHandler(){
+    private JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-            try{
+            try {
                 int friends = response.getInt("friends_count");
                 int followers = response.getInt("followers_count");
                 int statuses = response.getInt("statuses_count");
@@ -156,10 +172,34 @@ public class ProfileActivity extends AppCompatActivity {
 
                 getSupportActionBar().setTitle("@" + screenName);
 
-            } catch (JSONException e){
+            } catch (JSONException e) {
 
                 e.printStackTrace();
             }
         }
     };
+
+    public void onFollowingCountClick(View view) {
+
+        User user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+
+        Intent intent = new Intent(this, FollowActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
+        intent.putExtra("Follow", Follow.Following);
+        startActivity(intent);
+    }
+
+    public void onFollowersCountClick(View view) {
+
+        User user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+
+        Intent intent = new Intent(this, FollowActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
+        intent.putExtra("Follow", Follow.Follower);
+        startActivity(intent);
+    }
 }
+
+
+
+

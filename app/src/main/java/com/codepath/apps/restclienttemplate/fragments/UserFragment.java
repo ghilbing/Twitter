@@ -29,7 +29,7 @@ public class UserFragment extends TweetsFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        username = getArguments().getString("user");
+       // username = getArguments().getString("user");
     }
 
     public static UserFragment newInstance(String username) {
@@ -41,6 +41,8 @@ public class UserFragment extends TweetsFragment {
     }
 
     public void populateTimeline(String maxId) {
+
+        String username = getArguments().getString("user");
 
         client.getUserTimeline(username, maxId, new JsonHttpResponseHandler() {
             @Override

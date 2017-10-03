@@ -104,7 +104,7 @@ public abstract class TweetsFragment extends Fragment {
 
 
 
-        mAdapter = new TweetAdapter(getActivity(), new ArrayList<Tweet>());
+        mAdapter = new TweetAdapter(getActivity(), new ArrayList<Tweet>(), getActivity().getSupportFragmentManager());
         mRecycler.setAdapter(mAdapter);
         LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());

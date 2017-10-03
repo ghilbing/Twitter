@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.FlickrApi;
@@ -65,6 +66,15 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("include_entities", "false");
 		params.put("screen_name", name);
+		client.get(apiUrl, params, handler);
+	}
+
+	public void lookupUser(String screenName, AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("users/show.json");
+		//specify the params
+		//specify the params
+		RequestParams params = new RequestParams();
+		params.put("screen_name", screenName);
 		client.get(apiUrl, params, handler);
 	}
 
@@ -174,6 +184,34 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("q", query);
 		params.put("result_type", "popular");
 		getClient().get(apiUrl, params, responseHandler);
+	}
+
+	public void favoriteTweet(AsyncHttpResponseHandler responseHandler, Boolean favorite, long id) {
+
+		String apiUrl;
+
+		if(favorite){
+			apiUrl = getApiUrl("favorites/destroy.json");
+		}else{
+			apiUrl = getApiUrl("favorites/create.json");
+		}
+		//specify the params
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		getClient().post(apiUrl, params, responseHandler);
+	}
+
+	public void reTweet(AsyncHttpResponseHandler responseHandler, Boolean reTweet, long id) {
+		String apiUrl;
+		if(reTweet) {
+			apiUrl = getApiUrl("statuses/unretweet/:id.json");
+		}else{
+			apiUrl = getApiUrl("statuses/retweet/:id.json");
+		}
+		//specify the params
+		apiUrl = apiUrl.replace(":id", String.valueOf(id));
+		Log.i("TAG", apiUrl);
+		getClient().post(apiUrl, null, responseHandler);
 	}
 
 
