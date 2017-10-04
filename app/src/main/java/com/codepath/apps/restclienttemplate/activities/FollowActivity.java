@@ -56,6 +56,10 @@ public class FollowActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        /*setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         //non referencing view jobs go here
         followList = new ArrayList<>();

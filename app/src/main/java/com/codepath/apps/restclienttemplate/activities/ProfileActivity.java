@@ -99,6 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
+
             UserFragment userFragment = UserFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.profileFragment, userFragment);
@@ -115,12 +116,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void populateUser(String username) {
 
-        if (username != null) {
-            Log.i("UserName", username.toString());
-            client.getUser(username, handler);
-        } else {
-            client.getCredentials(handler);
-        }
+
+
+            if (username != null) {
+                Log.i("UserName", username.toString());
+                client.getUser(username, handler);
+            } else {
+                client.getCredentials(handler);
+            }
+
 
     }
 

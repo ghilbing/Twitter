@@ -156,6 +156,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         new PatternEditableBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String screenName) {
+                                Log.i("PATTERM - SCREEN NAME", screenName);
 
                                 Intent intent = new Intent(mContext, ProfileActivity.class);
                                 intent.putExtra("from_user_span", true);
@@ -183,15 +184,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         tvRetweetCount.setText("");
         tvFavoriteCount.setText("");
 
+        if(tweet.getRetweetCount() >0){
+            tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+        }
 
-
-
-
-
-
-
-
-
+        if(tweet.getFavoriteCount() >0){
+            tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
+        }
 
 
         if (tweet.getFavorited()) {

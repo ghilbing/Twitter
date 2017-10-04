@@ -30,8 +30,8 @@ public class SearchActivity extends AppCompatActivity {
 
         @Bind(R.id.toolbar)
         Toolbar toolbar;
-        @Bind(R.id.toolbarTitle)
-        TextView toolbarTitle;
+     /*   @Bind(R.id.toolbarTitle)
+        TextView toolbarTitle;*/
         private TwitterClient client;
         String queryText;
         private TweetsFragment tweetsListFragment;
@@ -44,9 +44,11 @@ public class SearchActivity extends AppCompatActivity {
             ButterKnife.bind(this);
             client = TwitterApp.getRestClient();
             // Make sure the toolbar exists in the activity and is not null
+
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            toolbarTitle.setText("Search Popular Tweets");
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.search);
 
 
             if (savedInstanceState == null) {

@@ -56,8 +56,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FollowActivity" />
-        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.FollowActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codepath.apps.restclienttemplate.activities.TimelineActivity" />
+
+        </activity>
+        <activity android:name=".activities.SearchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codepath.apps.restclienttemplate.activities.TimelineActivity" />
+        </activity>
         <activity android:name=".activities.DetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
