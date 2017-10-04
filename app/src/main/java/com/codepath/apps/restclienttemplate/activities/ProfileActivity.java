@@ -44,9 +44,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
+import static com.codepath.apps.restclienttemplate.R.id.toolbar;
 import static com.codepath.apps.restclienttemplate.R.id.tvDescription;
 import static com.codepath.apps.restclienttemplate.R.id.tvRetweetCount;
 import static com.codepath.apps.restclienttemplate.R.id.tvScreenName;
+import static com.codepath.apps.restclienttemplate.R.id.tvTagline;
+import static com.codepath.apps.restclienttemplate.R.id.tvUserName;
+import static com.codepath.apps.restclienttemplate.models.User_Table.screenName;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -79,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     User user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +91,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        User user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+        user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
 
-        String username = user.getName();
+        String username = user.getScreenName();
 
-        Log.i("USER RECEIVED", user.getName().toString());
+
 
         if (savedInstanceState == null) {
 
@@ -104,46 +109,20 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         populateUser(username);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user, menu);
-        return true;
-    }
+    private void populateUser(String username) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            TwitterApp.getRestClient().clearAccessToken();
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void populateUser(String userName) {
-
-        if (userName != null) {
-            Log.i("UserName", userName.toString());
-            client.getUser(userName, handler);
+        if (username != null) {
+            Log.i("UserName", username.toString());
+            client.getUser(username, handler);
         } else {
             client.getCredentials(handler);
         }
 
     }
-
 
     private JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
         @Override
@@ -178,6 +157,42 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     };
+
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.logout) {
+            TwitterApp.getRestClient().clearAccessToken();
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
 
     public void onFollowingCountClick(View view) {
 

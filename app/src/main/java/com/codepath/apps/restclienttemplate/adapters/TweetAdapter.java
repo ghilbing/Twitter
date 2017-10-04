@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
@@ -19,10 +20,14 @@ import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.activities.DetailActivity;
 import com.codepath.apps.restclienttemplate.activities.ProfileActivity;
+import com.codepath.apps.restclienttemplate.activities.SearchActivity;
+import com.codepath.apps.restclienttemplate.fragments.ReplyTweetFragment;
 import com.codepath.apps.restclienttemplate.models.Entity;
 import com.codepath.apps.restclienttemplate.models.Media;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
+import com.codepath.apps.restclienttemplate.utils.LinkifieldTextView;
+import com.codepath.apps.restclienttemplate.utils.PatternEditableBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
@@ -31,6 +36,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
@@ -38,6 +44,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.apps.restclienttemplate.R.id.btnFavorite;
 import static com.codepath.apps.restclienttemplate.R.id.btnRetweet;
+import static com.codepath.apps.restclienttemplate.R.id.fill;
 import static com.codepath.apps.restclienttemplate.R.id.tvFavoriteCount;
 import static com.codepath.apps.restclienttemplate.R.string.tweet;
 
@@ -54,6 +61,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     TwitterClient client;
 
     FragmentManager mFragmentManager;
+
 
     //pass in the Tweets array in the constructor
     public TweetAdapter(Context context, List<Tweet> tweets, FragmentManager fragmentManager) {
@@ -92,7 +100,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         //populate the views according to this data
         holder.tvUserName.setText("@" + tweet.getUser().getScreenName().toString());
-        holder.tvBody.setText(tweet.getBody());
+       // holder.tvBody.setText(tweet.getBody());
         holder.tvFullName.setText(tweet.getUser().getName());
         holder.tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
         holder.tvTweetAge.setText(tweet.getCreatedAt());
@@ -105,10 +113,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             public void onClick(View view) {
                 Intent intent = new Intent(getmContext(), ProfileActivity.class);
                 intent.putExtra("user", tweet.getUser());
-                Log.i("USER PASED", tweet.getUser().toString());
                 getmContext().startActivity(intent);
-               /* User user = (User) view.getTag();
-                mListener.onUserClick(user);*/
+
             }
         });
 
@@ -140,6 +146,52 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         final Button btnFavorite = holder.btnFavorite;
         final TextView tvRetweetCount = holder.tvRetweetCount;
         final Button btnRetweet = holder.btnRetweet;
+
+        LinkifieldTextView tvBody = holder.tvBody;
+
+        tvBody.setText(tweet.getBody());
+
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\@(\\w+)"), getmContext().getResources().getColor(R.color.TwitterBlue),
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String screenName) {
+
+                                Intent intent = new Intent(mContext, ProfileActivity.class);
+                                intent.putExtra("from_user_span", true);
+                                intent.putExtra("screen_name", screenName.substring(1));
+                                getmContext().startActivity(intent);
+                                Toast.makeText(getmContext(), "Clicked username: " + screenName,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).into(tvBody);
+
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\#(\\w+)"), getmContext().getResources().getColor(R.color.TwitterBlue),
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String hashtag) {
+
+                                Intent intent = new Intent(getmContext(), SearchActivity.class);
+                                intent.putExtra("q", hashtag);
+                                getmContext().startActivity(intent);
+                                Toast.makeText(getmContext(), "Clicked hashtag: " + hashtag,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).into(tvBody);
+
+        tvRetweetCount.setText("");
+        tvFavoriteCount.setText("");
+
+
+
+
+
+
+
+
+
+
 
 
         if (tweet.getFavorited()) {
@@ -214,7 +266,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
 
-    private void reTweet(final Tweet tweet, final TextView tvRetweetCount, final Button ivRetweetCount) {
+    private void reTweet(final Tweet tweet, final TextView tvRetweetCount, final Button btnRetweet) {
 
         client.reTweet(new JsonHttpResponseHandler(){
             @Override
@@ -223,9 +275,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 try {
                     if(response.getBoolean("retweeted")){
                         tweet.setRetweetCount(Integer.parseInt(response.getString("retweet_count")));
-                        ivRetweetCount.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet_on));
+                        btnRetweet.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet_on));
                     }else{
-                        ivRetweetCount.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet));
+                        btnRetweet.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet));
                     }
                     tweet.setRetweeted(response.getBoolean("retweeted"));
                     if(response.getLong("retweet_count") > 0) {
@@ -254,6 +306,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }, tweet.getRetweeted(), tweet.getId());
 
     }
+
 
 
     @Nullable
@@ -310,7 +363,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @Bind(R.id.tvUserName)
         TextView tvUserName;
         @Bind(R.id.tvBody)
-        TextView tvBody;
+        LinkifieldTextView tvBody;
         @Bind(R.id.tvTweetFullName)
         TextView tvFullName;
         @Bind(R.id.tvTweetAge)
@@ -323,6 +376,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView tvFavoriteCount;
         @Bind(R.id.btnRetweet)
         Button btnRetweet;
+        @Bind(R.id.btnReply)
+        Button btnReply;
         @Bind(R.id.btnFavorite)
         Button btnFavorite;
 

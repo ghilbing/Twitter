@@ -24,7 +24,7 @@ import static java.util.Collections.addAll;
 
 public class UserFragment extends TweetsFragment {
     TwitterClient client = TwitterApp.getRestClient();
-    String username;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,17 +32,17 @@ public class UserFragment extends TweetsFragment {
        // username = getArguments().getString("user");
     }
 
-    public static UserFragment newInstance(String username) {
+    public static UserFragment newInstance(String screenName) {
         UserFragment f = new UserFragment();
         Bundle args = new Bundle();
-        args.putString("user", username);
+        args.putString("screen_name", screenName);
         f.setArguments(args);
         return f;
     }
 
     public void populateTimeline(String maxId) {
 
-        String username = getArguments().getString("user");
+        String username = getArguments().getString("screen_name");
 
         client.getUserTimeline(username, maxId, new JsonHttpResponseHandler() {
             @Override

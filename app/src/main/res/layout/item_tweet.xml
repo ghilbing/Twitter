@@ -78,7 +78,7 @@
                     android:layout_below="@id/tvBody"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
             </RelativeLayout>
 
             <RelativeLayout

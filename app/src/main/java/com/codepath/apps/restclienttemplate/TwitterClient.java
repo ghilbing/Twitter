@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import static com.codepath.apps.restclienttemplate.models.User_Table.screenName;
+
 /*
  * 
  * This is the object responsible for communicating with a REST API. 
@@ -61,11 +63,11 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 	}
 
-	public void getUser(String name, AsyncHttpResponseHandler handler){
+	public void getUser(String user, AsyncHttpResponseHandler handler){
 		String apiUrl = getApiUrl("users/show.json");
 		RequestParams params = new RequestParams();
 		params.put("include_entities", "false");
-		params.put("screen_name", name);
+		params.put("screen_name", user);
 		client.get(apiUrl, params, handler);
 	}
 
@@ -132,13 +134,13 @@ public class TwitterClient extends OAuthBaseClient {
 		return relativeDate;
 	}
 
-	public void getFollowers(JsonHttpResponseHandler repsonseHandler, String screenName) {
+	public void getFollowers(JsonHttpResponseHandler responseHandler, String screenName) {
 		String apiUrl = getApiUrl("followers/list.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("screen_name", screenName);
 		params.put("count", 200);
-		getClient().get(apiUrl, params, repsonseHandler);
+		getClient().get(apiUrl, params, responseHandler);
 	}
 
 
