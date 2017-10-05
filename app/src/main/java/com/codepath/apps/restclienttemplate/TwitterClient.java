@@ -188,6 +188,16 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(apiUrl, params, responseHandler);
 	}
 
+	public void getDirectMessages(JsonHttpResponseHandler responseHandler) {
+		String apiUrl = getApiUrl("direct_messages.json");
+		//specify the params
+		RequestParams params = new RequestParams();
+		params.put("count", 20);
+		params.put("since_id", 1);
+
+		getClient().get(apiUrl, null, responseHandler);
+	}
+
 	public void favoriteTweet(AsyncHttpResponseHandler responseHandler, Boolean favorite, long id) {
 
 		String apiUrl;

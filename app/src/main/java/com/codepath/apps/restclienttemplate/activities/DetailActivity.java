@@ -92,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (tweet != null) {
             Log.i("Tweetdetail", user.getName());
+            Log.i("Tweetentity", tweet.getEntity().getMedia().toString());
             loadViewItems(tweet, user, entity);
         } else {
             Log.i("Tweetdetail", " tweet is null!");
@@ -104,44 +105,40 @@ public class DetailActivity extends AppCompatActivity {
         tvScreenName.setText(user.getScreenName());
         tvBody.setText(tweet.getBody());
         tvTweetTime.setText(tweet.getCreatedAt());
-        tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
-        tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+       // tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
+       // tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
         Glide.with(this).load(user.getProfileImage()).into(ivProfileImg);
 
         ivPhoto.setImageResource(0);
+      /* if (entity != null && !entity.getMedia().isEmpty()) {
+
+            Glide.with(this).load(tweet.getEntity().getMedia()).into(ivPhoto);
+            Log.i("PHOTO", tweet.getEntity().getMedia().toString());
+        }*/
+
+        String mediaUrl = mediaUrl(tweet);
+
+        if (entity != null && mediaUrl != null) {
+            Glide.with(this).load(mediaUrl).into(ivPhoto);
+            ivPhoto.setVisibility(View.VISIBLE);
+        } else {
+            ivPhoto.setVisibility(View.GONE);
+        }
 
 
-            if (entity != null && !entity.getMedia().isEmpty()) {
 
-                Glide.with(this).load(tweet.getEntity().getMedia()).into(ivPhoto);
-                Log.i("PHOTO", tweet.getEntity().getMedia().toString());
-            }
+        tvFavoriteCount.setText("");
+        tvRetweetCount.setText("");
 
-            if (tweet.getRetweetCount() > 0) {
-                tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
-            }
+        if (tweet.getRetweetCount() > 0) {
+            tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+        }
 
 
-            if (tweet.getFavoriteCount() > 0) {
-                tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
+        if (tweet.getFavoriteCount() > 0) {
+            tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
 
-            }
-
-            btnFavorite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    favorTweet(tweet, tvFavoriteCount, btnFavorite);
-                    Log.i("FAVDETAIL", "WORKKS");
-                }
-            });
-
-            btnRetweet.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    reTweet(tweet, tvRetweetCount, btnRetweet);
-                    Log.i("FAVDETAIL", "WORKKS");
-                }
-            });
+        }
 
         if (tweet.getFavorited()) {
             btnFavorite.setBackgroundResource(R.drawable.ic_favorite_on);
@@ -154,18 +151,19 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         btnFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                favorTweet(tweet, tvFavoriteCount, btnFavorite);
-            }
-
+                @Override
+                public void onClick(View view) {
+                    favorTweet(tweet, tvFavoriteCount, btnFavorite);
+                    Log.i("FAVDETAIL", "WORKS");
+                }
         });
 
         btnRetweet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reTweet(tweet, tvRetweetCount, btnRetweet);
-            }
+                @Override
+                public void onClick(View view) {
+                    reTweet(tweet, tvRetweetCount, btnRetweet);
+                    Log.i("RETWEETDETAIL", "WORKS");
+                }
         });
 
     }
@@ -176,7 +174,9 @@ public class DetailActivity extends AppCompatActivity {
         if (entity != null) {
             List<Media> media = entity.getMedia();
             if (!media.isEmpty()) {
+                Log.i("MEDIA", media.get(0).getMediaUrl().toString());
                 return media.get(0).getMediaUrl();
+
             }
         }
 

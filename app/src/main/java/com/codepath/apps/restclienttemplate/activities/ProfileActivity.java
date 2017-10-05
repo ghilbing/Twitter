@@ -43,6 +43,7 @@ import org.parceler.Parcels;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.codepath.apps.restclienttemplate.R.id.toolbar;
 import static com.codepath.apps.restclienttemplate.R.id.tvDescription;
@@ -150,7 +151,10 @@ public class ProfileActivity extends AppCompatActivity {
                 tvFollowingCount.setText(String.valueOf(friends) + " Following");
                 tvTweetCount.setText(String.valueOf(statuses) + " Tweets");
 
-                Glide.with(getApplicationContext()).load(Uri.parse(profileImage)).into(ivProfileImage);
+                Glide.with(getApplicationContext())
+                        .load(Uri.parse(profileImage))
+                        .bitmapTransform(new RoundedCornersTransformation(getApplicationContext(), 10,0))
+                        .into(ivProfileImage);
                 Glide.with(getApplicationContext()).load(Uri.parse(backgroundImage)).into(ivBackground);
 
                 getSupportActionBar().setTitle("@" + screenName);

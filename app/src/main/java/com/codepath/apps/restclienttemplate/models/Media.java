@@ -16,7 +16,9 @@ import java.util.List;
 
 public class Media implements Parcelable {
 
-    private long id;
+
+
+   private long id;
     private String mediaUrl;
     private String url;
 

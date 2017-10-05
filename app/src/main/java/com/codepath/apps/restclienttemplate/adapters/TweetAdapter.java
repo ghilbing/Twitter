@@ -162,8 +162,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 intent.putExtra("from_user_span", true);
                                 intent.putExtra("screen_name", screenName.substring(1));
                                 getmContext().startActivity(intent);
-                                Toast.makeText(getmContext(), "Clicked username: " + screenName,
-                                        Toast.LENGTH_SHORT).show();
+
+
                             }
                         }).into(tvBody);
 
@@ -176,8 +176,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 Intent intent = new Intent(getmContext(), SearchActivity.class);
                                 intent.putExtra("q", hashtag);
                                 getmContext().startActivity(intent);
-                                Toast.makeText(getmContext(), "Clicked hashtag: " + hashtag,
-                                        Toast.LENGTH_SHORT).show();
+
                             }
                         }).into(tvBody);
 
@@ -275,6 +274,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     if(response.getBoolean("retweeted")){
                         tweet.setRetweetCount(Integer.parseInt(response.getString("retweet_count")));
                         btnRetweet.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet_on));
+                        Log.i("RETweet funcionando", tweet.getId().toString());
                     }else{
                         btnRetweet.setBackground(getmContext().getResources().getDrawable(R.drawable.ic_retweet));
                     }
@@ -314,6 +314,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         if (entity != null) {
             List<Media> media = entity.getMedia();
             if (!media.isEmpty()) {
+                Log.i("MEDIA", media.get(0).getMediaUrl().toString());
                 return media.get(0).getMediaUrl();
             }
         }
@@ -392,6 +393,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                     Tweet tweet = mTweets.get(position);
                     Intent intent = new Intent(mContext, DetailActivity.class);
+                    Log.i("TWEET_ID", mTweets.get(position).getId().toString());
                     intent.putExtra("tweet", Parcels.wrap(tweet));
                     intent.putExtra("user", Parcels.wrap(tweet.getUser()));
                     intent.putExtra("entity", Parcels.wrap(tweet.getEntity()));

@@ -3,7 +3,10 @@ package com.codepath.apps.restclienttemplate.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.raizlabs.android.dbflow.annotation.Column;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

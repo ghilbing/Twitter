@@ -28,6 +28,7 @@ import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.fragments.ComposeFragment;
+import com.codepath.apps.restclienttemplate.fragments.DirectMessagesFragment;
 import com.codepath.apps.restclienttemplate.fragments.MentionsFragment;
 import com.codepath.apps.restclienttemplate.fragments.TimelineFragment;
 import com.codepath.apps.restclienttemplate.interfaces.IDataCallback;
@@ -36,6 +37,8 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.apps.restclienttemplate.utils.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.restclienttemplate.utils.Utils;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -48,6 +51,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
 
 import static android.R.attr.data;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
@@ -86,8 +90,14 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Stetho.initializeWithDefaults(this);
+
+        OkHttpClient clientStetho = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
+
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -215,12 +225,11 @@ public class TimelineActivity extends AppCompatActivity {
 
             switch (position){
                 case 0:
-
                     return new TimelineFragment();
                 case 1:
                     return new MentionsFragment();
                 default:
-                    return new TimelineFragment();
+                    return null;
             }
 
         }
