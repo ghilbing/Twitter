@@ -40,6 +40,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.bumptech.glide.Glide.with;
 
+
 public class DetailActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
@@ -67,6 +68,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
+
     TwitterClient client;
 
     private Tweet tweet;
@@ -86,13 +88,18 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.details);
+
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
+        Log.i("tweet_received"  , tweet.getId().toString());
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+        Log.i("user_received" , Parcels.unwrap(getIntent().getParcelableExtra("user")).toString());
         entity = Parcels.unwrap(getIntent().getParcelableExtra("entity"));
+        Log.i("entity_received" , Parcels.unwrap(getIntent().getParcelableExtra("entity")).toString());
+
 
         if (tweet != null) {
             Log.i("Tweetdetail", user.getName());
-            Log.i("Tweetentity", tweet.getEntity().getMedia().toString());
+
             loadViewItems(tweet, user, entity);
         } else {
             Log.i("Tweetdetail", " tweet is null!");
@@ -174,7 +181,7 @@ public class DetailActivity extends AppCompatActivity {
         if (entity != null) {
             List<Media> media = entity.getMedia();
             if (!media.isEmpty()) {
-                Log.i("MEDIA", media.get(0).getMediaUrl().toString());
+                Log.i("MEDIADETAIL", media.get(0).getMediaUrl().toString());
                 return media.get(0).getMediaUrl();
 
             }
@@ -304,4 +311,8 @@ public class DetailActivity extends AppCompatActivity {
         }, tweet.getRetweeted(), tweet.getId());
 
     }
+
+
+
 }
+

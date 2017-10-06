@@ -100,7 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
-
             UserFragment userFragment = UserFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.profileFragment, userFragment);
@@ -151,10 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
                 tvFollowingCount.setText(String.valueOf(friends) + " Following");
                 tvTweetCount.setText(String.valueOf(statuses) + " Tweets");
 
-                Glide.with(getApplicationContext())
-                        .load(Uri.parse(profileImage))
-                        .bitmapTransform(new RoundedCornersTransformation(getApplicationContext(), 10,0))
-                        .into(ivProfileImage);
+                Glide.with(getApplicationContext()).load(Uri.parse(profileImage)).into(ivProfileImage);
                 Glide.with(getApplicationContext()).load(Uri.parse(backgroundImage)).into(ivBackground);
 
                 getSupportActionBar().setTitle("@" + screenName);
@@ -165,10 +161,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     };
-
-
-
-
 
 
 

@@ -23,6 +23,7 @@ public class Entity implements Parcelable {
 
 
     protected Entity(Parcel in) {
+       // media = (ArrayList<Media>) in.readSerializable();
     }
 
     public static final Creator<Entity> CREATOR = new Creator<Entity>() {
@@ -59,5 +60,7 @@ public class Entity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
+
     }
 }

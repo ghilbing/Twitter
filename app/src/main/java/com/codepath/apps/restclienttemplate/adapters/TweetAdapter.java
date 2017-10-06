@@ -395,8 +395,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Intent intent = new Intent(mContext, DetailActivity.class);
                     Log.i("TWEET_ID", mTweets.get(position).getId().toString());
                     intent.putExtra("tweet", Parcels.wrap(tweet));
+                    intent.putExtra("id" , mTweets.get(position).getId());
+                    Log.i("tweet" , Parcels.wrap(tweet).toString());
                     intent.putExtra("user", Parcels.wrap(tweet.getUser()));
+                    Log.i("user" , Parcels.wrap(tweet).toString());
                     intent.putExtra("entity", Parcels.wrap(tweet.getEntity()));
+                    Log.i("entity" , Parcels.wrap(tweet.getEntity()).toString());
                     mContext.startActivity(intent);
                 }
             });

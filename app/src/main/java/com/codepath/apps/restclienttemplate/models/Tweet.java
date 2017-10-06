@@ -160,7 +160,8 @@ public class Tweet extends BaseModel implements Parcelable{
     public static Tweet fromJson(JSONObject json) {
         Tweet tweet = new Tweet();
         try {
-            tweet.id_tweet = json.getLong("id_str");
+          //  tweet.id_tweet = json.getLong("id_str");
+            tweet.id_tweet = json.getLong("id");
             tweet.body = json.getString("text");
             tweet.createdAt = json.getString("created_at");
             tweet.retweetCount = json.getInt("retweet_count");
@@ -230,7 +231,7 @@ public class Tweet extends BaseModel implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeLong(id_tweet);
         dest.writeString(body);
         dest.writeString(createdAt);
         dest.writeInt(retweetCount);
