@@ -45,12 +45,13 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
+[img]https://i.imgur.com/OX6HLgt.gif[/img]
 
 https://i.imgur.com/OX6HLgt.gifv
 
 https://i.imgur.com/OX6HLgt.mp4
 
-<img src='https://i.imgur.com/OX6HLgt.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/OX6HLgt.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
