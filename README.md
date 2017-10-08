@@ -46,7 +46,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="OX6HLgt"><a href="//imgur.com/OX6HLgt"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+https://i.imgur.com/OX6HLgt.gifv
 
 https://i.imgur.com/OX6HLgt.mp4
 
