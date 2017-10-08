@@ -51,7 +51,6 @@ https://i.imgur.com/OX6HLgt.gifv
 
 https://i.imgur.com/OX6HLgt.mp4
 
-<img src='https://i.imgur.com/OX6HLgt.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
