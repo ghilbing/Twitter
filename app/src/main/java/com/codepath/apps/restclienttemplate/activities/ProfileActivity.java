@@ -96,22 +96,66 @@ public class ProfileActivity extends AppCompatActivity {
 
         String username = user.getScreenName();
 
+        UserFragment userFragment = UserFragment.newInstance(username);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.profileFragment, userFragment);
+        transaction.commit();
 
 
+        if(savedInstanceState == null){
+            if(getIntent().getBooleanExtra("from_user_span", false)){
+                Log.i("name", getIntent().getStringExtra("screen_name"));
+                lookupUser(getIntent().getStringExtra("screen_name"));
+
+            } else {
+                //populateUser(username);
+               // user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+                setupView();
+            }
+        }
+
+
+/*
         if (savedInstanceState == null) {
 
             UserFragment userFragment = UserFragment.newInstance(username);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.profileFragment, userFragment);
             transaction.commit();
-        }
+        }*/
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        populateUser(username);
+       // populateUser(username);
 
+    }
+
+    private void lookupUser(String screenName) {
+        client.lookupUser(screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Log.d("DEBUG", "success" + response.toString());
+                user = User.fromJson(response);
+               // populateUser(user.getName());
+                setupView();
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("DEBUG", "onFailure" + responseString);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", "onFailure" + errorResponse.toString());
+
+            }
+        });
     }
 
     private void populateUser(String username) {
@@ -126,6 +170,28 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
 
+    }
+
+    private void setupView() {
+        String screenName = user.getScreenName();
+        UserFragment fragmentUserTimeline = UserFragment.newInstance(screenName);
+        //display user fragment dynamically within this activity
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.profileFragment, fragmentUserTimeline);
+        ft.commit();
+
+        toolbar.setTitle(user.getName());
+
+        tvProfileName.setText(user.getName());
+        tvUserName.setText(user.getScreenName());
+        tagline.setText(user.getTagline());
+        tvFollowerCount.setText("FOLLOWERS " + String.valueOf(user.getFollowersCount()));
+        tvFollowingCount.setText("FOLLOWING " +  String.valueOf(user.getFollowingCount()));
+
+       // Log.i("user.getProfileImageU", user.getProfileImageUrl());
+
+        Glide.with(getApplicationContext()).load(user.getProfileImage()).into(ivProfileImage);
+        Glide.with(getApplicationContext()).load(user.getProfileBackgroundImageUrl()).into(ivBackground);
     }
 
     private JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
@@ -153,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Glide.with(getApplicationContext()).load(Uri.parse(profileImage)).into(ivProfileImage);
                 Glide.with(getApplicationContext()).load(Uri.parse(backgroundImage)).into(ivBackground);
 
-                getSupportActionBar().setTitle("@" + screenName);
+//                getSupportActionBar().setTitle("@" + screenName);
 
             } catch (JSONException e) {
 

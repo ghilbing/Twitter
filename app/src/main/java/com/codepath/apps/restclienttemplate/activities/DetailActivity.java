@@ -74,6 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     private Tweet tweet;
     private User user;
     private Entity entity;
+    private String mediaUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,21 +94,24 @@ public class DetailActivity extends AppCompatActivity {
         Log.i("tweet_received"  , tweet.getId().toString());
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         Log.i("user_received" , Parcels.unwrap(getIntent().getParcelableExtra("user")).toString());
-        entity = Parcels.unwrap(getIntent().getParcelableExtra("entity"));
-        Log.i("entity_received" , Parcels.unwrap(getIntent().getParcelableExtra("entity")).toString());
+       // entity = Parcels.unwrap(getIntent().getParcelableExtra("entity"));
+        mediaUrl = getIntent().getStringExtra("media");
+      //  Log.i("media_received" , mediaUrl.toString());
 
 
         if (tweet != null) {
             Log.i("Tweetdetail", user.getName());
 
-            loadViewItems(tweet, user, entity);
+          //  loadViewItems(tweet, user, entity);
+            loadViewItems(tweet, user, mediaUrl);
+
         } else {
             Log.i("Tweetdetail", " tweet is null!");
 
         }
     }
 
-    private void loadViewItems(final Tweet tweet, User user, Entity entity) {
+    private void loadViewItems(final Tweet tweet, User user, String mediaUrl) {
         tvUserName.setText(user.getName());
         tvScreenName.setText(user.getScreenName());
         tvBody.setText(tweet.getBody());
@@ -117,20 +121,28 @@ public class DetailActivity extends AppCompatActivity {
         Glide.with(this).load(user.getProfileImage()).into(ivProfileImg);
 
         ivPhoto.setImageResource(0);
-      /* if (entity != null && !entity.getMedia().isEmpty()) {
+       if (entity != null && !entity.getMedia().isEmpty()) {
 
             Glide.with(this).load(tweet.getEntity().getMedia()).into(ivPhoto);
             Log.i("PHOTO", tweet.getEntity().getMedia().toString());
-        }*/
+        }
 
-        String mediaUrl = mediaUrl(tweet);
+       /* mediaUrl = mediaUrl(tweet);
 
         if (entity != null && mediaUrl != null) {
             Glide.with(this).load(mediaUrl).into(ivPhoto);
             ivPhoto.setVisibility(View.VISIBLE);
         } else {
             ivPhoto.setVisibility(View.GONE);
-        }
+        }*/
+
+      if (mediaUrl != null){
+          Log.i("media_if", mediaUrl.toString());
+          Glide.with(this).load(mediaUrl).into(ivPhoto);
+          ivPhoto.setVisibility(View.VISIBLE);
+      } else {
+          ivPhoto.setVisibility(View.GONE);
+      }
 
 
 

@@ -62,6 +62,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     FragmentManager mFragmentManager;
 
+    public String mediaUrl;
+
 
     //pass in the Tweets array in the constructor
     public TweetAdapter(Context context, List<Tweet> tweets, FragmentManager fragmentManager) {
@@ -131,7 +133,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
 
         holder.ivMedia.setImageResource(android.R.color.transparent);
-        String mediaUrl = mediaUrl(tweet);
+        mediaUrl = mediaUrl(tweet);
 
         if (mediaUrl != null) {
             Glide.with(getmContext()).load(mediaUrl).into(holder.ivMedia);
@@ -161,7 +163,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 Intent intent = new Intent(mContext, ProfileActivity.class);
                                 intent.putExtra("from_user_span", true);
                                 intent.putExtra("screen_name", screenName.substring(1));
-                                getmContext().startActivity(intent);
+                              //  getmContext().startActivity(intent);
+                                Toast.makeText(mContext, "Clicked username: " + screenName,
+                                        Toast.LENGTH_SHORT).show();
 
 
                             }
@@ -380,6 +384,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Button btnReply;
         @Bind(R.id.btnFavorite)
         Button btnFavorite;
+       // Tweet tweet;
 
         public ViewHolder (View itemView){
             super(itemView);
@@ -390,18 +395,32 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     int position = getLayoutPosition();
+                    final Tweet tweet = mTweets.get(position);
+                    String mediaUrlPass = mediaUrl(tweet);
 
-                    Tweet tweet = mTweets.get(position);
-                    Intent intent = new Intent(mContext, DetailActivity.class);
-                    Log.i("TWEET_ID", mTweets.get(position).getId().toString());
-                    intent.putExtra("tweet", Parcels.wrap(tweet));
-                    intent.putExtra("id" , mTweets.get(position).getId());
-                    Log.i("tweet" , Parcels.wrap(tweet).toString());
-                    intent.putExtra("user", Parcels.wrap(tweet.getUser()));
-                    Log.i("user" , Parcels.wrap(tweet).toString());
-                    intent.putExtra("entity", Parcels.wrap(tweet.getEntity()));
-                    Log.i("entity" , Parcels.wrap(tweet.getEntity()).toString());
-                    mContext.startActivity(intent);
+                    if(mediaUrlPass != null){
+                        Intent intent = new Intent(mContext, DetailActivity.class);
+                        Log.i("TWEET_ID", mTweets.get(position).getId().toString());
+                        Log.i("MEDIA_ID", mediaUrlPass);
+                        intent.putExtra("tweet", Parcels.wrap(tweet));
+                        intent.putExtra("id" , mTweets.get(position).getId());
+                        intent.putExtra("user", Parcels.wrap(tweet.getUser()));
+                        intent.putExtra("media", mediaUrlPass);
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, DetailActivity.class);
+                        Log.i("TWEET_ID", mTweets.get(position).getId().toString());
+                        intent.putExtra("tweet", Parcels.wrap(tweet));
+                        intent.putExtra("id" , mTweets.get(position).getId());
+                        intent.putExtra("user", Parcels.wrap(tweet.getUser()));
+                        mContext.startActivity(intent);
+
+                    }
+
+
+                 //   intent.putExtra("entity", Parcels.wrap(tweet.getEntity()));
+
+
                 }
             });
 

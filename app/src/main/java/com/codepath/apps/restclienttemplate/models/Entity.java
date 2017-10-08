@@ -23,7 +23,7 @@ public class Entity implements Parcelable {
 
 
     protected Entity(Parcel in) {
-       // media = (ArrayList<Media>) in.readSerializable();
+     //   media = (ArrayList<Media>) in.readSerializable();
     }
 
     public static final Creator<Entity> CREATOR = new Creator<Entity>() {
